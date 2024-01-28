@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.light {
+}
+/* .dark{
+
+} */
+:root {
+  --bgc: #faf0e6;
+  --primary-bgc: rgb(239, 239, 239);
+  --primary: #b2ac88;
+  -secondary: #808000;
+  --accent: #e97451;
+  --primary-text: black;
+  --primary-text-btn: white;
+  --ff-primary: 'Poppins', sans-serif;
+  --card-bgc: white;
+  --secondary-bgc: ;
+}
+.dark-mode {
+  --primary-bgc: rgb(31, 31, 31);
+  --card-bgc: rgb(85, 85, 85);
+  --primary-text: white;
+  --primary-text-btn: black;
+}
+
+#root {
+  height: 100%;
+}
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  3. Allow percentage-based heights in the application
+*/
+html,
+body {
+  height: 100%;
+}
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+  color: var(--primary-text);
+  font-family: var(--ff-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+  8. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+.center {
+  display: grid;
+  place-items: center;
+}
+.justCenter {
+  justify-content: center;
+}
+.alignCenter {
+  align-items: center;
+}
+.btn {
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.btn:hover {
+  filter: brightness(80%);
+}
+.normal-btn {
+  border: 0.5px solid gray;
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+.flex {
+  display: flex;
+}
+.flexCenter {
+  display: flex;
+  row-gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flexStart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.gapOne {
+  gap: 1rem;
+}
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+.flexColCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.flexColStart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.flexColEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.primaryText {
+  color: var(--primary-text);
+}
+.primaryTextButton {
+  color: var(--primary-text-btn);
+}
+
+.secondaryText {
+  color: #474775;
+  font-size: 0.9rem;
+}
+.thirdText {
+  color: rgb(70, 70, 70);
+}
+.orangeText {
+  color: var(--clr-orange);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.HeaderTwo {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* media queries */
+@media (min-width: 1536px) {
+  .innerWidth {
+    /* max-width: 1280px; */
+    margin: auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .paddings {
+    padding: 4rem;
+  }
+}
+
+@media (min-width: 1280px), (min-width: 768px) {
+  .paddings {
+    /* padding: 2rem; */
+  }
+}
+
+@media (max-width: 640px) {
+  .primaryText {
+    font-size: 1.5rem;
+  }
+  .orangeText {
+    font-size: 1.2rem;
+  }
+}
+
+.button {
+  border: none;
+  color: white;
+  background-color: var(--clr-primary-400);
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 100ms ease-in;
+  font-weight: 600;
+}
+.button a {
+  color: white;
+}
+
+button:hover {
+  cursor: pointer;
+  /* transform: scale(1.1); */
+}
+.primary-header {
+  font-weight: 600;
+  font-size: 1.75rem;
+  background-color: var(--clr-primary-500);
+}
+
+.change-transition {
+  transition: 0.2s ease-in-out;
+}

@@ -1,0 +1,87 @@
+.sidebar-container{
+  
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    .dashboard-one{
+        // background-color: green;
+        // display: flex;
+        // background-color: red;
+        ul{
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            &>:last-child{
+                padding: 0.15rem 1.15rem;
+            }
+            li{
+                // background-color: green;
+                display: flex;
+                align-items: center;
+                padding: 0.15rem 1rem;
+                gap: 1rem;
+                // background-color: green;
+                svg{
+                    // font-size: 1rem;
+                }
+               
+             
+            }
+            
+        }
+        .dashboard-btn{
+            
+            background-color: blue;
+            width: 100%;
+            padding: 0.25rem  0.5rem;
+            border-radius: 0.5rem;
+            gap: 1rem;
+            .square-container{
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* Creates two columns */
+                grid-template-rows: 1fr 1fr; /* Creates two rows */
+                gap: 1px; /* Optional: adds space between grid items */
+            }
+        }
+    }
+    .dashboard-two{
+        li{
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            .category-color{
+                width: 0.75rem;
+                height:0.75rem;
+                background-color: green;
+                border-radius: 50%;
+            }
+        }
+
+
+    }
+    
+}
+.sidebar-ul{
+    list-style: none;
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
+    overflow: hidden;
+  
+    li{
+        padding: 0.15rem 1rem;
+        gap: 1rem;
+        a{
+            text-decoration: none;
+            color: black;
+
+            display: flex;
+            // padding: 0.15rem 1rem;
+            gap: 1rem;
+            &:hover{
+
+            }
+        }
+     
+    }
+}

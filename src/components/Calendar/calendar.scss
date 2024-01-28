@@ -1,0 +1,219 @@
+.calendar-container{
+    // outline: 1px solid black;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    .calendar-header{
+        // background-color: green;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        span{
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .change-month-btn{
+            // background-color: green;
+            display: flex;
+            gap: 0.5rem;
+            button{
+                width: 2rem;
+                height: 2rem;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                border-radius: 50%;
+                transition: 0.2s ease;
+                // display: flex;
+                // background-color: red;
+        
+                
+                &:hover{
+                    background-color: rgb(211, 211, 211);
+                }
+            }
+        }
+
+
+    }
+    .calendar-main-container{
+        // background-color: red;
+        .calendar-aside{
+            width:3.5rem;
+            // height: 2rem;;
+            // background-color: purple;
+            flex-shrink: 1;
+        }
+        .calendar-date-header {
+
+            display: flex;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+
+
+                // background-color: red;
+            // gap: 1rem;
+            .db-calendar-date{
+                background-color: rgb(243, 243, 243);
+                position: relative;
+                border-bottom:  0.5px solid rgb(181, 181, 181);
+                gap: 1rem;
+                // flex-grow: 1;
+                gap: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                // background-color: red;
+                width: 8rem;
+                flex-grow: 1;
+                &::before{
+                    content: ''; /* Required for pseudo-elements */
+                    position: absolute;
+                    left: 0;
+                    bottom: 0; 
+                    height: 50%; /* Half the height of the container */
+                    width: 0.5px; /* Width of the border */
+                    background-color: rgb(181, 181, 181);
+                }
+                    // background-color: green;
+                    .date-number{
+                        // background-color: red;
+                        font-size: 1.5rem;
+                        color: var(--primary-text);
+        
+                    }
+                    .date-day{
+                        // background-color: green;
+                    }          
+            }
+        }
+        .calendar-body{
+
+            // height: 15rem;
+            // overflow-y: scroll;
+            // padding: 5px;
+            display: flex;
+            overflow-y: auto;
+            max-height: 25rem; /* Adjust as needed */
+            
+            .hour-container{
+
+                width: 3.5rem;
+                height: 100%;
+
+                flex-shrink: 0;
+
+                .hour-number{
+                    height:5.5rem;
+                    width: 100%;
+                    // outline: 1px solid black;
+                    position: relative;
+                    // border-right: 0.5px solid rgb(181, 181, 181);
+
+                    &::before{
+                        content: ''; /* Required for pseudo-elements */
+                        position: absolute;
+                        // left: 0;
+                        right: 0;
+                        background-color: red;
+                        bottom: 0; 
+                        height: 0.5px; /* Half the height of the container */
+                        width: 20%; /* Width of the border */
+                        background-color:  rgb(181, 181, 181);
+                    }
+                    span{
+                        position: absolute;
+                        top: -0.75rem;
+                    }
+                }
+                // height: 2rem;;
+            }
+            .main-days-container{
+
+                width: 100%;
+                display: flex;
+                .days-container{
+                    flex-shrink: 0;
+                    
+                    height: 100%;
+                    width: 8rem;
+                    flex-grow:1;
+
+                    // border-left: 0.5px solid black;
+                    .hour-container{
+    
+                    border-left: 0.5px solid rgb(181, 181, 181);
+
+                        width: 100%;
+                        // background-color: red;
+                        height: 5.5rem;
+                        // border-left: 0.5px solid black;
+                        border-bottom:  0.5px solid rgb(181, 181, 181);
+                        display: flex;
+                        flex-direction: column;
+                        // flex-grow: 1;
+
+                        .quarter-hour-container{
+                            height: 1rem;;
+                            border-bottom: 0.15px solid black;
+                        }
+    
+                    }
+                }
+            }
+            
+            // .day-container{
+            //     // background-color: green;
+            //     width: 8rem;
+            //     height: 2rem;
+            //     border-left: 0.5px solid black;
+            //     border-bottom: 0.5px solid black;
+            //     flex-grow:1;
+            // }
+            // .calendar-hour-row{
+            //     // border-bottom: 1px solid black;
+            //     // background-color: green;
+            //     height: 3rem;
+                
+            //     .hour-label{
+            //         // background-color: green;
+            //         width: 3.5rem;
+            //         position: relative;
+            //         // background-color: yellow;
+            //         &::before{
+            //             content: ''; /* Required for pseudo-elements */
+            //             position: absolute;
+            //             right: 0;
+            //             bottom: 0; 
+            //             height: 0.5px; /* Half the height of the container */
+            //             width: 25%; /* Width of the border */
+            //             background-color: black; /* Color of the border */
+            //         }
+            //         span{
+            //             top: -0.75rem;
+            //             position: absolute;
+            //         }
+            //     }
+            //     .calendar-day-column{
+            //         flex-grow: 1;
+            //         border-left: 0.5px solid black;
+            //         border-bottom: 0.5px solid black;
+            //         display: flex;
+            //         justify-content: center;
+            //         width: 8rem;
+            //         // background-color: yellow;
+            //     }
+  
+            // }
+
+        }
+        
+    }
+}
+
+.blue-hour{ 
+    color: transparent;
+}

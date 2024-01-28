@@ -1,0 +1,288 @@
+.UserCard {
+  background-image: url('../../../assets/illustration3.png');
+  background-size: cover; /* Cover the entire area of the element */
+  background-position: top; /* Center the image in the element */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  height: 300px; /* Set a height for the element */
+  width: 100%; /* Set a width for the element */
+  height: 100%;
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  .user-card-header {
+    // background-color: white;
+    flex-basis: 35%;
+    span {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+  }
+  .user-card-right {
+    flex-grow: 1;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    .upcoming-tasks-header {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .upcoming-tasks-container {
+      flex-grow: 1;
+      padding: 0.5rem 0rem;
+
+      .upcoming-task {
+        display: flex;
+        background-color: white;
+
+        //    background-color: red;
+        gap: 1rem;
+        .task-color {
+          width: 4px;
+          // height: 100%;
+          background-color: green;
+        }
+        .upcoming-task-detail {
+          // background-color: red ;
+        }
+      }
+    }
+  }
+}
+
+.todays-tasks_container {
+  max-height: 100%;
+  // background-color: red;
+
+  .todays-tasks-header {
+    margin-bottom: 1rem;
+    // padding: 1rem;
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+  ul {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin: 0.4rem;
+    height: 16rem;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: #f5f5f5; /* background color of the scrollbar */
+    }
+    &::-webkit-scrollbar-track {
+      background-color: green;
+      width: 2px;
+      background-color: #e1e1e1; /* background color of the track */
+      border-radius: 10px; /* round corners of the track */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #888; /* background color of the thumb */
+      border-radius: 10px; /* round corners of the thumb */
+      border: 2px solid #e1e1e1; /* border around the thumb */
+      transition: 0.2s ease;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #555; /* color of the thumb on hover */
+    }
+    li {
+      // background-color: red;
+      gap: 0.5rem;
+      justify-content: space-between;
+      padding: 0.5rem 0.5rem;
+      // margin-top: 1rem;
+      transition: 0.3s ease;
+      cursor: pointer;
+      &:hover {
+        background-color: #cfcfcf;
+      }
+      .assignment-left {
+        display: flex;
+        gap: 0.5rem;
+        // background-color: red;
+        // flex-direction: column;
+        .assignment-checkmark-container {
+          display: flex;
+          // align-items: center;
+          margin-top: 0.5rem;
+          width: 1.5rem;
+          .checkmark-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            user-select: none; /* Prevent user selection */
+          }
+
+          /* Hide the default checkbox */
+          .checkmark-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+          }
+
+          /* Create a custom checkmark */
+          .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            // background-color: #eee;
+            // border: 0.5px solid black;
+
+            border-radius: 4px;
+            transition: 0.1s ease-in-out;
+          }
+
+          /* On mouse-over, add a grey background color */
+          .checkmark-container:hover input ~ .checkmark {
+            background-color: #ccc;
+          }
+
+          /* Create the checkmark/indicator (hidden when not checked) */
+          .checkmark:after {
+            content: '';
+            position: absolute;
+            display: none;
+          }
+
+          /* Show the checkmark when checked */
+          .checkmark-container input:checked ~ .checkmark:after {
+            display: block;
+            color: black;
+          }
+
+          /* Style the checkmark/indicator */
+          .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid black;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+          }
+        }
+        .assignment-detail {
+          margin-left: 0.5rem;
+          .assignment-left-title {
+            // background-color: green;
+            font-size: 1.15rem;
+            font-weight: 500;
+          }
+          // background-color: green;
+          .today-task-category {
+            // background-color: green;
+            color: rgb(83, 83, 83);
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            .today-task-cat-color {
+              border-radius: 50%;
+              width: 1rem;
+              height: 1rem;
+            }
+          }
+        }
+      }
+      .assignment-right {
+        display: grid;
+        place-items: center;
+        // background-color: green;
+      }
+    }
+  }
+}
+
+.dashboard-pomodoro-wrapper {
+  .dashboard-pomodoro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    .timer-display {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+      }
+    }
+  }
+  .pomodoro-change-timer {
+    padding: 1rem;
+    // background-color: #e3e3e3;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  }
+}
+.settings-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+
+  .settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    input[type='number'] {
+      width: 60px;
+      padding: 5px;
+    }
+  }
+}
+
+.dashbaord-calendar-container {
+}

@@ -1,0 +1,110 @@
+.assignment-table-header{
+padding: 2rem;
+display: flex;
+justify-content: center;
+align-items: center;
+border-bottom: 0.5px solid gray;
+    span{
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+}
+.welcome{
+    // background-color: green;
+    padding: .5rem 1.5rem;
+    font-size: 1.25rem;
+    color: rgb(143, 143, 143);
+}
+.assignments{
+    // background-color: blue;
+    position: relative;
+    padding: 1rem;
+    height: 90%;
+}
+.assignments-table {
+    background-color: #ffffff; // White table background
+    border-radius: 8px; // Rounded corners
+    padding: 0.5rem;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); // subtle shadow for depth
+
+    thead {
+        background-color: #4a90e2; // A shade of blue for headers
+        color: white;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+
+        th {
+            transition: 0.2s ease;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 15px; // Adequate padding for readability
+            &:hover{
+                filter: brightness(80%);
+            }
+        }
+
+    }
+
+    tbody {
+        &>:last-child{
+            // background-color: green;
+            padding: 0;
+        }
+        tr {
+            text-align: center;
+            background-color: #ffffff; // White background for rows
+            transition: 0.2s ease;
+            cursor: pointer;
+            .assignment-title{
+                // background-color: red;
+                position: relative;
+                &>:nth-child(1){
+                    left: 0;
+                    top: 0;
+                    position: absolute;
+                    width: 0.5rem;
+                    height: 100%;
+                    background-color: red;
+                }
+            }
+            &:hover {
+                background-color: #f0f0f0; // Slight change on hover
+            }
+
+            td {
+                padding: 10px 15px;
+                border-bottom: 1px solid #e0e0e0; // Light border for separation
+            }
+        }
+    }
+}
+
+.add-assignment-container {
+    background-color: #e8f4fc; // Light background for contrast
+    padding: 0.25rem;
+    display: grid;
+    place-items: center;
+    width: 100%;
+
+    .add-btn {
+        background-color: #4a90e2; // Match header color
+        color: white;
+        border: none;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2); // subtle shadow for depth
+
+        &:hover {
+            background-color: #3a80d2; // Darker shade on hover
+        }
+    }
+}
+
+.assignments-table th.sorted-header {
+    filter: brightness(80%);}
