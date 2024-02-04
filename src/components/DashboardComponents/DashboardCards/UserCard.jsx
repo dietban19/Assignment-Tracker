@@ -13,35 +13,35 @@ import './DashboardCards.scss';
 const UserCard = () => {
   const [upcomingTasks, setUpcomingTasks] = useState([]);
 
-  useEffect(() => {
-    const fetchUpcomingTasks = async () => {
-      try {
-        // Convert current date to Firestore timestamp format
-        const now = new Date();
-        const nowTimestamp = Math.floor(now.getTime() / 1000);
-        console.log(nowTimestamp);
-        const tasksCollectionRef = collection(db, 'tasks'); // Replace 'tasks' with your actual collection name
-        const q = query(
-          tasksCollectionRef,
-          where('startDate.seconds', '>=', nowTimestamp),
-          orderBy('startDate.seconds'),
-          limit(3),
-        );
+  // useEffect(() => {
+  //   const fetchUpcomingTasks = async () => {
+  //     try {
+  //       // Convert current date to Firestore timestamp format
+  //       const now = new Date();
+  //       const nowTimestamp = Math.floor(now.getTime() / 1000);
+  //       console.log(nowTimestamp);
+  //       const tasksCollectionRef = collection(db, 'tasks'); // Replace 'tasks' with your actual collection name
+  //       const q = query(
+  //         tasksCollectionRef,
+  //         where('startDate.seconds', '>=', nowTimestamp),
+  //         orderBy('startDate.seconds'),
+  //         limit(3),
+  //       );
 
-        const querySnapshot = await getDocs(q);
-        const tasks = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+  //       const querySnapshot = await getDocs(q);
+  //       const tasks = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
 
-        setUpcomingTasks(tasks);
-      } catch (error) {
-        console.error('Error fetching upcoming tasks:', error);
-      }
-    };
+  //       setUpcomingTasks(tasks);
+  //     } catch (error) {
+  //       console.error('Error fetching upcoming tasks:', error);
+  //     }
+  //   };
 
-    fetchUpcomingTasks();
-  }, []);
+  //   fetchUpcomingTasks();
+  // }, []);
 
   const formatTaskDateTime = (timestampSeconds, timeString) => {
     const date = new Date(timestampSeconds * 1000);
@@ -59,10 +59,10 @@ const UserCard = () => {
         <span>Hello,</span>
         <span>Dieter Banaag</span>
       </div>
-      <div className="user-card-right dark:bg-dark-500 bg-light-300">
+      <div className="user-card-right bg-light-300 dark:bg-dark-500">
         <div className="upcoming-tasks-header ">Upcoming Tasks</div>
         <div className="upcoming-tasks-container">
-          {upcomingTasks.length > 0 ? (
+          {/* {upcomingTasks.length > 0 ? (
             upcomingTasks.map((task) => (
               <div key={task.id} className="upcoming-task">
                 <span
@@ -72,14 +72,14 @@ const UserCard = () => {
                 <div className="upcoming-task-detail">
                   <div className="upcoming-task-header">{task.name}</div>
                   <div className="upcoming-task-time">
-                    {/* Format task.dueDate to display day */}
+
                   </div>
                 </div>
               </div>
             ))
           ) : (
             <div>No upcoming tasks</div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

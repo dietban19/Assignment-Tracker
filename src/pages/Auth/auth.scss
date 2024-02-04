@@ -1,92 +1,89 @@
-.auth-wrapper{
+// .auth-wrapper{
 
-    height: 100%;
-    display: grid;
-    place-items: center;
-}
-.auth-container{
-    border: 0.5px solid black;
-display: flex;
-flex-direction: column;
-align-items: center;
+//     height: 100%;
+//     display: grid;
+//     place-items: center;
+// }
+// .auth-container{
+//     border: 0.5px solid black;
+// display: flex;
+// flex-direction: column;
+// align-items: center;
 
-    width: 40rem;
-    padding: 1.5rem;
-    gap: 1rem;
-    .separator {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        margin: 20px 0;
+//     width: 40rem;
+//     padding: 1.5rem;
+//     gap: 1rem;
+//     .separator {
+//         display: flex;
+//         align-items: center;
+//         text-align: center;
+//         margin: 20px 0;
 
-        width: 100%;
-      
-        .line {
-          flex-grow: 1;
-        //   height: 5svb;
-        height: 1px;
-          background-color: black;
+//         width: 100%;
 
-          margin: 0 10px;
-        }
-      
-        .or {
-          white-space: nowrap;
-          padding: 0 10px;
-          color: #000; // Adjust the color as needed for your design
-          // Optional: add font styling for 'or' text if needed
-          font-weight: bold;
-          font-size: 14px;
-        }
-      }
-      
-    
-}
-.input-container{
-    position: relative;
-    height: 4rem;
-    line-height: 4rem;
-    width: 100%;
-    .auth-input{
-        position: absolute;
-        width: 100%;
-        outline: none;  
-        font-size: 1.5em;
-        padding: 0 0.5rem;
-        line-height: 4rem;
-        border-radius: 10px;
-        border: 0.5px solid black;
-        background-color: transparent;
-        transform: 0.1s ease;
-        z-index: 111;
-        &:focus,
-        &:valid{
-            color: #66ff00;
-      
-            border: 4px solid #66ff00;
-    
-        }
-        &:focus + .labelline,  &:valid + .labelline{
-            color: #66ff00;
-            height: 30px;
-            line-height: 30px;
-            transform: translate(-15px,-15px) scale(0.88);
-            // font-size: 1em;
-            z-index: 1111;
-        }
-    }
-    .labelline{
- 
-        position: absolute;
-        font-size: 1.3em;
-        color: #f0ffff;
-        padding: 0 0.5rem;    
-        margin: 0 1rem;
-        background-color: var(--bgc);
-        color: black;
-        transition: 0.2s ease;
-    } 
+//         .line {
+//           flex-grow: 1;
+//         //   height: 5svb;
+//         height: 1px;
+//           background-color: black;
 
+//           margin: 0 10px;
+//         }
 
-}
+//         .or {
+//           white-space: nowrap;
+//           padding: 0 10px;
+//           color: #000; // Adjust the color as needed for your design
+//           // Optional: add font styling for 'or' text if needed
+//           font-weight: bold;
+//           font-size: 14px;
+//         }
+//       }
 
+// }
+// .input-container{
+//     position: relative;
+//     height: 4rem;
+//     line-height: 4rem;
+//     width: 100%;
+//     .auth-input{
+//         position: absolute;
+//         width: 100%;
+//         outline: none;
+//         font-size: 1.5em;
+//         padding: 0 0.5rem;
+//         line-height: 4rem;
+//         border-radius: 10px;
+//         border: 0.5px solid black;
+//         background-color: transparent;
+//         transform: 0.1s ease;
+//         z-index: 111;
+//         &:focus,
+//         &:valid{
+//             color: #66ff00;
+
+//             border: 4px solid #66ff00;
+
+//         }
+//         &:focus + .labelline,  &:valid + .labelline{
+//             color: #66ff00;
+//             height: 30px;
+//             line-height: 30px;
+//             transform: translate(-15px,-15px) scale(0.88);
+//             // font-size: 1em;
+//             z-index: 1111;
+//         }
+//     }
+//     .labelline{
+
+//         position: absolute;
+//         font-size: 1.3em;
+//         color: #f0ffff;
+//         padding: 0 0.5rem;
+//         margin: 0 1rem;
+//         background-color: var(--bgc);
+//         color: black;
+//         transition: 0.2s ease;
+//     }
+
+// }

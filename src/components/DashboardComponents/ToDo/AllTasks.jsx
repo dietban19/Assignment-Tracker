@@ -12,35 +12,11 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { useUserContext } from '../../../context/UserContext'; // Adjust this import to match where your context is defined
-const AllTasks = () => {
+const AllTasks = ({ tasks }) => {
   const { currentUser } = useUserContext(); // Get current user from context
   const [today, setToday] = useState(new Date());
-  const [tasks, setTasks] = useState([]);
-  useEffect(() => {
-    const fetchTasks = async () => {
-      if (!currentUser) return;
 
-      const tasksRef = collection(db, 'users', currentUser.id, 'todo');
-      const q = query(tasksRef);
-
-      try {
-        const querySnapshot = await getDocs(q);
-
-        const fetchedTasks = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(fetchedTasks);
-        setTasks(fetchedTasks);
-      } catch (error) {
-        console.error('Error fetching tasks from Firestore: ', error);
-      }
-    };
-
-    fetchTasks();
-  }, [currentUser]);
   const sortedTasks = tasks.sort((a, b) => a.date.localeCompare(b.date));
-  console.log(tasks);
   const toggleTaskCompletion = async (taskId) => {
     const taskIndex = tasks.findIndex((task) => task.id === taskId);
     if (taskIndex === -1) return; // Task not found
@@ -80,21 +56,21 @@ const AllTasks = () => {
         <div
           id="all-tasks-filter"
           onClick={() => setFilter('All')}
-          className={`flex cursor-pointer items-center px-4 text-xl ${filter == 'All' ? 'border-apple-blue text-apple-blue dark:text-apple-blue-light dark:border-apple-blue-light border-r-4 font-semibold' : 'text-dark-500 '}`}
+          className={`flex cursor-pointer items-center px-4 text-xl ${filter == 'All' ? 'border-r-4 border-apple-blue font-semibold text-apple-blue dark:border-apple-blue-light dark:text-apple-blue-light' : 'text-dark-500 '}`}
         >
           All
         </div>
         <div
           id="all-tasks-filter"
           onClick={() => setFilter('Completed')}
-          className={`flex cursor-pointer items-center px-4 text-xl ${filter == 'Completed' ? 'border-apple-blue text-apple-blue dark:text-apple-blue-light dark:border-apple-blue-light border-l-4 border-r-4 font-semibold' : 'text-gray-400'}`}
+          className={`flex cursor-pointer items-center px-4 text-xl ${filter == 'Completed' ? 'border-l-4 border-r-4 border-apple-blue font-semibold text-apple-blue dark:border-apple-blue-light dark:text-apple-blue-light' : 'text-gray-400'}`}
         >
           Completed
         </div>
         <div
           id="all-tasks-filter"
           onClick={() => setFilter('Incomplete')}
-          className={`flex cursor-pointer items-center px-4 text-xl ${filter == 'Incomplete' ? 'border-apple-blue text-apple-blue dark:text-apple-blue-light dark:border-apple-blue-light border-l-4 font-semibold' : 'text-gray-400'}`}
+          className={`flex cursor-pointer items-center px-4 text-xl ${filter == 'Incomplete' ? 'border-l-4 border-apple-blue font-semibold text-apple-blue dark:border-apple-blue-light dark:text-apple-blue-light' : 'text-gray-400'}`}
         >
           Incomplete
         </div>
@@ -112,7 +88,7 @@ const AllTasks = () => {
           .map((task) => (
             <div
               key={task.id}
-              className="dark:bg-dark-500 flex flex-col rounded-2xl  bg-white px-12 py-3"
+              className="flex flex-col rounded-2xl bg-white  px-12 py-3 dark:bg-dark-500"
             >
               <div
                 id="task-top"
@@ -127,7 +103,7 @@ const AllTasks = () => {
                 </div>
               </div>
               <div className="py-2">
-                <p className="dark:text-dark-800 text-light-400 text-lg">
+                <p className="text-lg text-light-400 dark:text-dark-800">
                   {task.date == todayDate ? <>Today</> : <>Date: {task.date}</>}
                 </p>
               </div>

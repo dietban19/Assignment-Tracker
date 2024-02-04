@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "./Assignments.scss";
-import { useUserContext } from "../../context/userContext";
-import AssignmentPopup from "../../components/DashboardComponents/AssignmentPopup";
-import { GoPlus } from "react-icons/go";
+import React, { useState, useEffect } from 'react';
+import './Assignments.scss';
+import { useUserContext } from '../../context/userContext';
+import AssignmentPopup from '../../components/DashboardComponents/AssignmentPopup';
+import { GoPlus } from 'react-icons/go';
 const Assignments = () => {
   const {
     currentUser,
@@ -11,12 +11,14 @@ const Assignments = () => {
     logout,
     setLoadingAuthState,
   } = useUserContext();
+  const [shouldFetch, setShouldFetch] = useState(true);
+
   const [showModal, setShowModal] = useState(false);
   const [assignments, setAssignments] = useState([]); // State to store assignments
   const [selectedAssignment, setSelectedAssignment] = useState(null);
   const [selectedAssignments, setSelectedAssignments] = useState([]);
   const [sortField, setSortField] = useState(null);
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortDirection, setSortDirection] = useState('asc');
 
   const openModalWithAssignment = (assignment) => {
     setShowModal(true);
@@ -28,18 +30,18 @@ const Assignments = () => {
   // ... existing functions ...
 
   const handleSort = (field) => {
-    const isAsc = sortField === field && sortDirection === "asc";
-    setSortDirection(isAsc ? "desc" : "asc");
+    const isAsc = sortField === field && sortDirection === 'asc';
+    setSortDirection(isAsc ? 'desc' : 'asc');
     setSortField(field);
-    sortAssignments(field, isAsc ? "desc" : "asc");
+    sortAssignments(field, isAsc ? 'desc' : 'asc');
   };
   const sortAssignments = (field, direction) => {
     const sortedAssignments = [...assignments].sort((a, b) => {
       if (a[field] < b[field]) {
-        return direction === "asc" ? -1 : 1;
+        return direction === 'asc' ? -1 : 1;
       }
       if (a[field] > b[field]) {
-        return direction === "asc" ? 1 : -1;
+        return direction === 'asc' ? 1 : -1;
       }
       return 0;
     });
@@ -58,7 +60,7 @@ const Assignments = () => {
           setAssignments(fetchedAssignments);
         })
         .catch((error) => {
-          console.error("Error fetching assignments: ", error);
+          console.error('Error fetching assignments: ', error);
           // Handle the error appropriately
         });
     }
@@ -71,14 +73,14 @@ const Assignments = () => {
         .catch(console.error);
   };
   const formatHeader = (camelCase) => {
-    const spaced = camelCase.replace(/([A-Z])/g, " $1"); // Inserts a space before each uppercase letter
+    const spaced = camelCase.replace(/([A-Z])/g, ' $1'); // Inserts a space before each uppercase letter
     return spaced.charAt(0).toUpperCase() + spaced.slice(1); // Capitalizes the first letter
   };
   const renderSortArrow = (field) => {
     if (sortField === field) {
-      return sortDirection === "asc" ? " ↑" : " ↓";
+      return sortDirection === 'asc' ? ' ↑' : ' ↓';
     }
-    return "";
+    return '';
   };
 
   return (
@@ -106,18 +108,18 @@ const Assignments = () => {
           <thead>
             <tr>
               {[
-                "name",
-                "category",
-                "subject",
+                'name',
+                'category',
+                'subject',
 
-                "startDate",
-                "dueDate",
-                "status",
+                'startDate',
+                'dueDate',
+                'status',
               ].map((field) => (
                 <th
                   key={field}
                   onClick={() => handleSort(field)}
-                  className={sortField === field ? "sorted-header" : ""}
+                  className={sortField === field ? 'sorted-header' : ''}
                 >
                   {formatHeader(field)}
                   {renderSortArrow(field)}
@@ -133,7 +135,7 @@ const Assignments = () => {
               >
                 <td className="assignment-title">
                   <span style={{ backgroundColor: assignment.color }}></span>
-                  <span>{assignment.name}</span>{" "}
+                  <span>{assignment.name}</span>{' '}
                 </td>
                 <td>{assignment.category}</td>
                 <td>{assignment.subject}</td>
@@ -143,13 +145,13 @@ const Assignments = () => {
                 <td
                   style={{
                     backgroundColor:
-                      assignment.status == "Not Started"
-                        ? "#db5844"
-                        : assignment.status == "Done"
-                        ? "#08a80e"
-                        : "#f5f298",
+                      assignment.status == 'Not Started'
+                        ? '#db5844'
+                        : assignment.status == 'Done'
+                          ? '#08a80e'
+                          : '#f5f298',
                     color:
-                      assignment.status == "In Progress" ? "black" : "white",
+                      assignment.status == 'In Progress' ? 'black' : 'white',
                   }}
                 >
                   {assignment.status}
@@ -158,9 +160,9 @@ const Assignments = () => {
             ))}
             <tr>
               <td colSpan={6}>
-                {" "}
+                {' '}
                 <div className="add-assignment-container">
-                  {" "}
+                  {' '}
                   <button
                     className="add-btn btn center"
                     onClick={() => setShowModal(true)}

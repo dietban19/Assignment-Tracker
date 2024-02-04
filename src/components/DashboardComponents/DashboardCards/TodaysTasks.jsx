@@ -18,6 +18,8 @@ import {
 const TodaysTasks = () => {
   const { currentUser, fetchUserAssignments } = useUserContext();
   const [assignments, setAssignments] = useState([]); // State to store assignments
+  const [allAssignments, setAllAssignments] = useState([]); // State to store all fetched assignments
+
   const [dayRange, setDayRange] = useState('NextThree');
   const scrollableListRef = useRef(null);
   const startOfDayLocal = (dateString) => {
@@ -63,49 +65,87 @@ const TodaysTasks = () => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   console.log('calling todays tasks');
+  //   if (currentUser?.id) {
+  //     fetchUserAssignments(currentUser.id)
+  //       .then((fetchedAssignments) => {
+  //         const sortedAssignments = fetchedAssignments.sort((a, b) => {
+  //           const dateA = new Date(a.dueDate);
+  //           const dateB = new Date(b.dueDate);
+  //           return dateA - dateB; // Ascending order
+  //         });
+  //         const todaysAssignments = sortedAssignments.filter((assignment) => {
+  //           const today = new Date();
+  //           today.setHours(0, 0, 0, 0); // Reset time to start of the day
+  //           const dueDate = new Date(assignment.dueDate + 'T00:00:00');
+  //           return dueDate.getTime() === today.getTime();
+  //         });
+
+  //         // Filter assignments for the next three days
+  //         const threeDays = sortedAssignments.filter((assignment) => {
+  //           const today = new Date();
+  //           today.setHours(0, 0, 0, 0); // Reset time to start of the day to include whole day
+
+  //           const tomorrow = new Date(today);
+  //           tomorrow.setDate(tomorrow.getDate() + 1); // Set to tomorrow to exclude today
+
+  //           const sevenDaysFromToday = new Date(today);
+  //           sevenDaysFromToday.setDate(sevenDaysFromToday.getDate() + 9); // 7 days from today
+
+  //           const dueDate = new Date(assignment.dueDate + 'T00:00:00');
+
+  //           // Check if dueDate is between tomorrow and 7 days from today
+  //           return dueDate >= tomorrow && dueDate < sevenDaysFromToday;
+  //         });
+
+  //         // console.log(dayRange)
+  //         setAssignments(
+  //           dayRange == 'NextThree' ? threeDays : todaysAssignments,
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching assignments: ', error);
+  //       });
+  //   }
+  // }, [currentUser, dayRange]);
   useEffect(() => {
+    console.log('casdf');
     if (currentUser?.id) {
+      console.log('Fetching assignments from backend');
       fetchUserAssignments(currentUser.id)
         .then((fetchedAssignments) => {
-          const sortedAssignments = fetchedAssignments.sort((a, b) => {
-            const dateA = new Date(a.dueDate);
-            const dateB = new Date(b.dueDate);
-            return dateA - dateB; // Ascending order
-          });
-          const todaysAssignments = sortedAssignments.filter((assignment) => {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Reset time to start of the day
-            const dueDate = new Date(assignment.dueDate + 'T00:00:00');
-            return dueDate.getTime() === today.getTime();
-          });
-
-          // Filter assignments for the next three days
-          const threeDays = sortedAssignments.filter((assignment) => {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Reset time to start of the day to include whole day
-
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1); // Set to tomorrow to exclude today
-
-            const sevenDaysFromToday = new Date(today);
-            sevenDaysFromToday.setDate(sevenDaysFromToday.getDate() + 9); // 7 days from today
-
-            const dueDate = new Date(assignment.dueDate + 'T00:00:00');
-
-            // Check if dueDate is between tomorrow and 7 days from today
-            return dueDate >= tomorrow && dueDate < sevenDaysFromToday;
-          });
-
-          // console.log(dayRange)
-          setAssignments(
-            dayRange == 'NextThree' ? threeDays : todaysAssignments,
+          // Store the fetched assignments in both state and sessionStorage
+          sessionStorage.setItem(
+            'assignments',
+            JSON.stringify(fetchedAssignments),
           );
+          setAllAssignments(fetchedAssignments);
         })
         .catch((error) => {
           console.error('Error fetching assignments: ', error);
         });
     }
-  }, [currentUser, dayRange]);
+  }, [currentUser]);
+  useEffect(() => {
+    const filteredAssignments = allAssignments.filter((assignment) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time to start of the day
+      const dueDate = new Date(assignment.dueDate + 'T00:00:00');
+
+      if (dayRange === 'today') {
+        return dueDate.getTime() === today.getTime();
+      } else if (dayRange === 'NextThree') {
+        const sevenDaysFromToday = new Date(today);
+        sevenDaysFromToday.setDate(sevenDaysFromToday.getDate() + 7); // Adjusted to 7 days for clarity
+
+        return dueDate > today && dueDate <= sevenDaysFromToday;
+      }
+      return false; // Default case, can be adjusted based on requirements
+    });
+
+    setAssignments(filteredAssignments);
+  }, [dayRange, allAssignments]);
 
   const updateAssignmentStatusInDatabase = async (assignmentId, status) => {
     // Assuming you have a function to get a reference to the assignment document
@@ -144,7 +184,7 @@ const TodaysTasks = () => {
           onClick={() => {
             setDayRange('today');
           }}
-          className={`cursor-pointer p-2 text-lg ${dayRange == 'today' ? 'dark:text-light-300 dark:border-light-300 border-b-2 border-black font-semibold text-black' : 'border-b-1 dark:text-dark-900 dark:border-dark-900 text-gray-300'}`}
+          className={`cursor-pointer p-2 text-lg ${dayRange == 'today' ? 'border-b-2 border-black font-semibold text-black dark:border-light-300 dark:text-light-300' : 'border-b-1 text-gray-300 dark:border-dark-900 dark:text-dark-900'}`}
         >
           Due Today
         </div>
@@ -152,7 +192,7 @@ const TodaysTasks = () => {
           onClick={() => {
             setDayRange('NextThree');
           }}
-          className={`cursor-pointer p-2 text-lg ${dayRange == 'NextThree' ? 'dark:text-light-300 dark:border-light-300 border-b-2 border-black font-semibold text-black' : 'border-b-1 dark:text-dark-900 dark:border-dark-900 text-gray-300'}`}
+          className={`cursor-pointer p-2 text-lg ${dayRange == 'NextThree' ? 'border-b-2 border-black font-semibold text-black dark:border-light-300 dark:text-light-300' : 'border-b-1 text-gray-300 dark:border-dark-900 dark:text-dark-900'}`}
         >
           Due Next Seven Days
         </div>
@@ -171,11 +211,11 @@ const TodaysTasks = () => {
                       handleCheckboxChange(assignment.id, assignment.status)
                     }
                   />
-                  <span className="checkmark border-1 dark:border-light-400 border-black"></span>
+                  <span className="checkmark border-1 border-black dark:border-light-400"></span>
                 </label>
               </div>
               <div className="assignment-detail">
-                <span className="assignment-left-title dark:text-light-400 text-black">
+                <span className="assignment-left-title text-black dark:text-light-400">
                   {assignment.name}
                 </span>
                 <div className="today-task-category flex">
@@ -183,7 +223,9 @@ const TodaysTasks = () => {
                     className="today-task-cat-color"
                     style={{ backgroundColor: assignment.color }} // Corrected style prop
                   ></span>
-                  <span>{assignment.dueDate}</span>
+                  <span>
+                    {assignment.dueDate} - {assignment.subject}
+                  </span>
                 </div>
               </div>
             </div>

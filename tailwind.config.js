@@ -32,6 +32,9 @@ export default {
         1: '1px',
         0.5: '0.5px',
       },
+      boxShadow: {
+        'deep-inner': 'inset 0 2px 6px 4px rgba(0, 0, 0, 0.15)',
+      },
     },
   },
   plugins: [],

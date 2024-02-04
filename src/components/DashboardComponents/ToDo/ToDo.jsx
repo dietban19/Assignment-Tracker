@@ -116,15 +116,46 @@ const ToDo = () => {
     // console.log(newDate.split('T')[0]);
     setCurrentDate(newDate);
   };
+  useEffect(() => {
+    const deleteOldTasks = async () => {
+      if (!currentUser) return;
+
+      const now = new Date();
+      now.setHours(0, 0, 0, 0); // Normalize current date to start of the day for comparison
+      const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7)); // Calculate date 7 days ago
+
+      const tasksRef = collection(db, 'users', currentUser.id, 'todo');
+      const q = query(tasksRef); // Fetch all tasks for simplicity in this example
+
+      try {
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (document) => {
+          const task = { id: document.id, ...document.data() };
+          const taskDate = new Date(task.date);
+          if (taskDate < sevenDaysAgo) {
+            // If task date is more than 7 days in the past
+            // Delete the task from Firestore
+            await deleteDoc(
+              doc(db, 'users', currentUser.id, 'todo', document.id),
+            );
+            console.log(`Deleted old task with id: ${document.id}`);
+          }
+        });
+      } catch (error) {
+        console.error('Error deleting old tasks: ', error);
+      }
+    };
+
+    deleteOldTasks();
+  }, [currentUser]); // This effect depends on currentUser
 
   useEffect(() => {
+    console.log('calling tasks');
     const fetchTasks = async () => {
       if (!currentUser) return;
-      console.log(currentDate);
-      const todayDate = currentDate.toISOString().split('T')[0];
-      console.log(todayDate);
+
       const tasksRef = collection(db, 'users', currentUser.id, 'todo');
-      const q = query(tasksRef, where('date', '==', todayDate));
+      const q = query(tasksRef);
 
       try {
         const querySnapshot = await getDocs(q);
@@ -133,7 +164,7 @@ const ToDo = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(fetchedTasks);
+
         setTasks(fetchedTasks);
       } catch (error) {
         console.error('Error fetching tasks from Firestore: ', error);
@@ -141,27 +172,39 @@ const ToDo = () => {
     };
 
     fetchTasks();
-  }, [currentUser, currentDate, toggle]);
+  }, [currentUser]);
 
   // Filter tasks based on the current date
-  const filteredTasks = tasks.filter((task) => task.date === currentDate);
+  const filteredTasks = tasks.filter(
+    (task) => task.date === currentDate.toISOString().split('T')[0],
+  );
   const [selectedTask, setSelectedTask] = useState(null);
   const handleEditTask = async (taskId, newName, newDate) => {
-    console.log(taskId, newName, newDate);
+    // Find the task in the local state
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    if (taskIndex === -1) return; // Exit if task not found
+
+    // Create a new updated task object
+    const updatedTask = { ...tasks[taskIndex], name: newName, date: newDate };
+
+    // Update the tasks array in the state
+    setTasks((prevTasks) => [
+      ...prevTasks.slice(0, taskIndex),
+      updatedTask,
+      ...prevTasks.slice(taskIndex + 1),
+    ]);
+
+    // Update the task in Firestore
     const taskRef = doc(db, 'users', currentUser.id, 'todo', taskId);
     try {
       await updateDoc(taskRef, {
         name: newName,
-        date: newDate, // Assuming the date format is compatible with your database schema
+        date: newDate,
       });
-      // Update the local state to reflect the change
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === taskId ? { ...task, name: newName, date: newDate } : task,
-        ),
-      );
+      console.log(`Task ${taskId} updated successfully.`);
     } catch (error) {
       console.error('Error updating task: ', error);
+      // Optionally, handle the error (e.g., show an error message or rollback the local update)
     }
   };
 
@@ -189,19 +232,19 @@ const ToDo = () => {
       <div className="flex w-3/5  text-xl ">
         <div
           onClick={() => setSection('Daily Tasks')}
-          className={`flex w-1/2 cursor-pointer justify-center border-b-2 px-2 py-1   ${section == 'Daily Tasks' ? 'dark:text-light-300 dark:border-light-300 border-black font-semibold text-black' : 'dark:text-dark-900 dark:border-dark-900 border-b-2  text-gray-300'}`}
+          className={`flex w-1/2 cursor-pointer justify-center border-b-2 px-2 py-1   ${section == 'Daily Tasks' ? 'border-black font-semibold text-black dark:border-light-300 dark:text-light-300' : 'border-b-2 text-gray-300 dark:border-dark-900  dark:text-dark-900'}`}
         >
           Daily Tasks
         </div>
         <div
           onClick={() => setSection('All Tasks')}
-          className={`flex grow cursor-pointer justify-center  px-2  py-1   ${section == 'All Tasks' ? 'dark:text-light-300 dark:border-light-300 border-b-2 border-black font-semibold text-black' : 'border-b-1 dark:text-dark-900 dark:border-dark-900 text-gray-300'}`}
+          className={`flex grow cursor-pointer justify-center  px-2  py-1   ${section == 'All Tasks' ? 'border-b-2 border-black font-semibold text-black dark:border-light-300 dark:text-light-300' : 'border-b-1 text-gray-300 dark:border-dark-900 dark:text-dark-900'}`}
         >
           All Tasks
         </div>
       </div>
       {section == 'Daily Tasks' ? (
-        <div className="h-100 bg-light-gray dark:bg-dark-700 w-full p-2">
+        <div className="h-100 w-full bg-light-gray p-2 dark:bg-dark-700">
           {' '}
           <div className="flex items-center gap-4 py-4">
             <div
@@ -238,7 +281,7 @@ const ToDo = () => {
               onChange={(e) => setNewTaskName(e.target.value)}
             />
             <button
-              className="bg-apple-blue dark:bg-apple-blue-dark dark:text-light-200 flex-1 rounded-md px-2 text-lg font-bold text-white"
+              className="flex-1 rounded-md bg-apple-blue px-2 text-lg font-bold text-white dark:bg-apple-blue-dark dark:text-light-200"
               type="submit"
             >
               Add Task
@@ -248,6 +291,7 @@ const ToDo = () => {
             {popup && (
               <ToDoPopup
                 selectedTask={selectedTask}
+                tasks={tasks}
                 onClose={() => {
                   setPopup(false);
                 }}
@@ -255,7 +299,7 @@ const ToDo = () => {
                 onDelete={handleDeleteTask}
               />
             )}
-            {tasks.length == 0 && (
+            {filteredTasks.length == 0 && (
               <>
                 <div className="flex h-full w-full items-center justify-center p-2">
                   <div className="text-2xl font-semibold text-gray-300 ">
@@ -268,10 +312,10 @@ const ToDo = () => {
               id="daily-tasks-list"
               className="mt-3 flex w-full flex-col  gap-2 p-1"
             >
-              {tasks.map((task) => (
+              {filteredTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="duration:200 hover:bg-light-gray-500 dark:bg-dark-500 flex w-full cursor-pointer items-center gap-4 rounded-3xl bg-white px-4  py-4 transition"
+                  className="duration:200 flex w-full cursor-pointer items-center gap-4 rounded-3xl bg-white px-4 py-4 transition  hover:bg-light-gray-500 dark:bg-dark-500"
                 >
                   <div
                     onClick={() => toggleTaskCompletion(task.id)}
@@ -295,8 +339,8 @@ const ToDo = () => {
           </div>
         </div>
       ) : (
-        <div className="h-100 bg-light-gray dark:bg-dark-700 w-full p-4">
-          <AllTasks />
+        <div className="h-100 w-full bg-light-gray p-4 dark:bg-dark-700">
+          <AllTasks tasks={tasks} />
         </div>
       )}
     </div>
@@ -328,7 +372,7 @@ const ToDoPopup = ({ selectedTask, onClose, onEdit, onDelete }) => {
             onClick={() => {
               onClose();
             }}
-            className="duration:200 dark:bg-dark-700 h-8 w-8 rounded-full px-2 pb-2 text-lg font-bold text-black transition hover:bg-gray-300"
+            className="duration:200 h-8 w-8 rounded-full px-2 pb-2 text-lg font-bold text-black transition hover:bg-gray-300 dark:bg-dark-700"
           >
             <IoClose size={25} />
           </button>
@@ -348,7 +392,7 @@ const ToDoPopup = ({ selectedTask, onClose, onEdit, onDelete }) => {
             onChange={(e) => setEditTaskDate(e.target.value)}
           />
           <button
-            className="bg-primary-btn-color mt-2 rounded-md px-2 text-lg font-bold text-white"
+            className="mt-2 rounded-md bg-primary-btn-color px-2 text-lg font-bold text-white"
             type="submit"
           >
             Save Changes
@@ -356,7 +400,7 @@ const ToDoPopup = ({ selectedTask, onClose, onEdit, onDelete }) => {
         </form>
         <button
           onClick={() => onDelete(selectedTask.id)}
-          className="bg-red-btn ease duration:200 mt-4 rounded-3xl py-2 font-semibold text-white transition hover:brightness-110"
+          className="ease duration:200 mt-4 rounded-3xl bg-red-btn py-2 font-semibold text-white transition hover:brightness-110"
         >
           Delete
         </button>

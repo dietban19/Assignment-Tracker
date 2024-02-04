@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./calendar.scss";
+import React, { useState, useEffect } from 'react';
+import './calendar.scss';
 import {
   doc,
   collection,
@@ -7,33 +7,34 @@ import {
   query,
   where,
   getDocs,
-} from "firebase/firestore";
-import { db } from "../../config/firebase";
+} from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
 //   import DashboardCalendarPopup from "./DashboardCalendarPopup";
-import { useUserContext } from "../../context/userContext";
+import { useUserContext } from '../../context/userContext';
 const CalendarComponent = () => {
   const { currentUser } = useUserContext();
   const [today, setToday] = useState(new Date());
-  const [monthYearRange, setMonthYearRange] = useState("");
+  const [monthYearRange, setMonthYearRange] = useState('');
   const [weekDates, setWeekDates] = useState([]);
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
+
     // Fetch tasks when the component mounts or weekDates changes
     const fetchTasks = async () => {
       try {
-        const userDocRef = doc(db, "users", currentUser && currentUser.id);
-        const tasksCollectionRef = collection(userDocRef, "tasks");
+        const userDocRef = doc(db, 'users', currentUser && currentUser.id);
+        const tasksCollectionRef = collection(userDocRef, 'tasks');
 
         const startOfWeek = weekDates[0].toISOString();
         const endOfWeek = weekDates[6].toISOString();
-        console.log(weekDates[0]);
+
         // Assuming tasks have a 'startDate' field in ISO string format
         const q = query(
           tasksCollectionRef,
-          where("startDate", ">=", weekDates[0]),
-          where("startDate", "<=", weekDates[6])
+          where('startDate', '>=', weekDates[0]),
+          where('startDate', '<=', weekDates[6]),
         );
 
         const querySnapshot = await getDocs(q);
@@ -45,22 +46,20 @@ const CalendarComponent = () => {
 
         setTasks(fetchedTasks);
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error('Error fetching tasks:', error);
       }
     };
 
     if (currentUser && weekDates.length === 7) {
-      console.log("sdf");
       fetchTasks();
     }
   }, [currentUser, weekDates]);
-  console.log(tasks);
   // Utility function to get month and year range
   const getWeekDates = (date) => {
     const startOfWeek = new Date(
       date.getFullYear(),
       date.getMonth(),
-      date.getDate() - date.getDay()
+      date.getDate() - date.getDay(),
     );
     return Array.from({ length: 7 }).map((_, index) => {
       const day = new Date(startOfWeek);
@@ -72,7 +71,7 @@ const CalendarComponent = () => {
     const startOfWeek = new Date(
       date.getFullYear(),
       date.getMonth(),
-      date.getDate() - date.getDay()
+      date.getDate() - date.getDay(),
     );
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(endOfWeek.getDate() + 6);
@@ -87,8 +86,8 @@ const CalendarComponent = () => {
     return formatMonthYear(startOfWeek);
   };
   const formatMonthYear = (date) => {
-    const options = { month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    const options = { month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   };
 
   useEffect(() => {
@@ -99,19 +98,19 @@ const CalendarComponent = () => {
 
   const handleNextWeek = () => {
     setToday(
-      new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7)
+      new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7),
     );
   };
 
   // Handler for previous week
   const handlePrevWeek = () => {
     setToday(
-      new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7)
+      new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7),
     );
   };
   const getDayAbbreviation = (date) => {
     // Use the toLocaleDateString method to get the day name abbreviation
-    return date.toLocaleDateString("en-US", { weekday: "short" });
+    return date.toLocaleDateString('en-US', { weekday: 'short' });
   };
   const renderWeekDates = weekDates.map((date, index) => {
     // You can customize the content for each day here
@@ -127,14 +126,14 @@ const CalendarComponent = () => {
     // Convert 24-hour format to 12-hour format
     const hour = index % 12 === 0 ? 12 : index % 12;
     // Determine whether it's AM or PM
-    const amPm = index < 12 ? "AM" : "PM";
+    const amPm = index < 12 ? 'AM' : 'PM';
     return `${hour}${amPm}`;
   });
   const renderHourLabels = () => {
     return hours.map((hour, index) => (
       <div
         key={index}
-        className={`hour-number ${hour === "12AM" ? "blue-hour" : ""}`}
+        className={`hour-number ${hour === '12AM' ? 'blue-hour' : ''}`}
       >
         <span>{hour}</span>
       </div>
@@ -156,7 +155,7 @@ const CalendarComponent = () => {
       dayContainers.push(
         <div key={row} className="days-container">
           {week}
-        </div>
+        </div>,
       );
     }
     return dayContainers;
@@ -166,12 +165,12 @@ const CalendarComponent = () => {
     <div className="calendar-container">
       <div className="calendar-header">
         <div className="change-month-btn">
-          {" "}
+          {' '}
           <button className="arrow" onClick={handlePrevWeek}>
-            {"<"}
+            {'<'}
           </button>
           <button className="arrow" onClick={handleNextWeek}>
-            {">"}
+            {'>'}
           </button>
         </div>
 
