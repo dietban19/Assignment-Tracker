@@ -3,7 +3,7 @@ import './Dashboard.scss';
 import { useUserContext } from '../../context/userContext';
 import AssignmentPopup from '../../components/DashboardComponents/AssignmentPopup';
 import DbNavbar from '../../components/DashboardComponents/dbNavbar/dbNavbar';
-import DbSideBar from '../../components/DashboardComponents/dbSideBar/dbSidebar';
+import DbSideBar from '../../components/DashboardComponents/dbSideBar/DbSidebar';
 import UserCard from '../../components/DashboardComponents/DashboardCards/UserCard';
 import TodaysTasks from '../../components/DashboardComponents/DashboardCards/TodaysTasks';
 import DashboardCalendar from '../../components/DashboardComponents/DashboardCards/Calendar/DashboardCalendar';
