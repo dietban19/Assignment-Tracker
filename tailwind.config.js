@@ -24,6 +24,9 @@ export default {
         'dark-700': '#616161',
         'dark-800': '#424242',
         'dark-900': '#212121',
+        'clr-purple-500': '6562CF',
+        'clr-orange-500': 'FFB000',
+        'clr-orange-600': 'C36F0B',
       },
       height: {
         100: '26rem',
