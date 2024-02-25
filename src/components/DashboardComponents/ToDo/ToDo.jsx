@@ -13,7 +13,7 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore';
-import { useUserContext } from '../../../context/UserContext'; // Adjust path as needed
+import { useUserContext } from '../../../context/userContext'; // Adjust path as needed
 import AllTasks from './AllTasks';
 
 const ToDo = () => {
