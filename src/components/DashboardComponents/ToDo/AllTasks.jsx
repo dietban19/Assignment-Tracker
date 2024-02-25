@@ -11,7 +11,7 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore';
-import { useUserContext } from '../../../context/UserContext'; // Adjust this import to match where your context is defined
+import { useUserContext } from '../../../context/userContext'; // Adjust this import to match where your context is defined
 const AllTasks = ({ tasks }) => {
   const { currentUser } = useUserContext(); // Get current user from context
   const [today, setToday] = useState(new Date());
